@@ -20,11 +20,14 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
           </div>
         ) : (
           <div className='flex h-full flex-col items-center justify-center space-y-1'>
-            <div className='relative mb-4 h-60 w-60 text-muted-foreground'>
+            <div className='relative mb-4  text-muted-foreground'>
               <Image
-                src='/hippo-email-sent.png'
-                fill
-                alt='hippo email sent image'
+              className="w-full h-full"
+                src='/verify.svg'
+                width='500'
+                height='500'
+                // fill
+                alt='hamed email sent image'
               />
             </div>
 

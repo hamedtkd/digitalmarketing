@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -18,12 +18,14 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isSeller = searchParams.get("as") === "seller";
   const origin = searchParams.get("origin");
+  const [showPassword, setShowPassword] = useState(false);
 
   const continueAsSeller = () => {
     router.push("?as=seller");
@@ -59,7 +61,7 @@ const Page = () => {
 
       router.push("/");
     },
-    onError: (err) => {
+    onError: (err:any) => {
       if (err.data?.code === "UNAUTHORIZED") {
         toast.error("Invalid email or password.");
       }
@@ -111,7 +113,7 @@ const Page = () => {
                   )}
                 </div>
 
-                <div className="grid gap-1 py-2">
+                <div className="grid gap-1 py-2 relative">
                   <Label htmlFor="password">Password</Label>
                   <Input
                     {...register("password")}
@@ -121,6 +123,13 @@ const Page = () => {
                     })}
                     placeholder="Password"
                   />
+                   <button
+                    type="button"
+                    onClick={()=> setShowPassword(!showPassword)}
+                    className="absolute bottom-[18px] right-0 pr-2 flex items-center"
+                  >
+                    {!showPassword ? <EyeIcon className='h-5 w-5 stroke-muted-foreground' /> : <EyeOff className='h-5 w-5 stroke-muted-foreground' />}
+                  </button>
                   {errors?.password && (
                     <p className="text-sm text-red-500">
                       {errors.password.message}
